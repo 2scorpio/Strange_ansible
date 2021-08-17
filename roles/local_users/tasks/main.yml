@@ -1,0 +1,13 @@
+---
+# tasks file for Local_Users
+# make password hash
+# openssl passwd -salt 'NewPassSalt' -1
+
+- name: Add User For Servers
+  user:
+    name: '{{ item.name }}'
+    password: '{{ item.password }}'
+    state: present
+    update_password: on_create
+  loop:
+    - { name: 'webmaster', password: '$1$NewPassS$HtXR9n9Xgih1n7ST6N.Dc1' }

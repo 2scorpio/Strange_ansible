@@ -1,0 +1,30 @@
+- name: include variable file for MySQL
+  include_vars:
+      file: mysql.yml
+
+- name: Set MySQL root password before installing
+  debconf: name='mysql-server' question='mysql-server/root_password' value='{{MySQL_root_pass | quote}}' vtype='password'
+  become: yes
+
+- name: Confirm MySQL root password before installing
+  debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{MySQL_root_pass | quote}}' vtype='password'
+  become: yes
+
+- name: Install MySQL packages.
+  apt: name="{{item}}" state=present
+  become: yes
+  with_items:
+     - default-mysql-server
+     - default-mysql-client
+     - python3-mysqldb
+     - python-mysqldb
+     - libdbd-mysql-perl
+
+- name: Create a user for the 'library' db
+  mysql_user:
+    login_user: root
+    login_password: '{{ MySQL_root_pass | quote }}'
+    name: '{{ library_login_user }}'
+    password: '{{ library_login_pw }}'
+    priv: 'library.*:ALL,GRANT'
+    state: present

@@ -1,0 +1,16 @@
+---
+- name: register mysql repository key
+  apt_key: keyserver=pgp.mit.edu id=5072E1F5 state=present
+
+- name: Install MySQL repo
+  apt_repository:
+    repo: "deb http://repo.mysql.com/apt/debian buster mysql-8.0"
+    state: present
+
+- name: Install MySQL
+  apt:
+    pkg:
+      - mysql-server
+      - php7.3-mysql
+    state: present
+  notify: restart mysql

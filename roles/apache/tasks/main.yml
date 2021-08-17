@@ -1,0 +1,9 @@
+- name: System - Install Apache
+  apt:
+    pkg: ['apache2', 'php7.3', 'php7.3-mysql', 'php7.3-memcache', 'php7.3-memcached', 'php7.3-gd', 'php7.3-opcache']
+    state: present
+
+  notify:
+    - Restart Apache2
+
+- include: vhost.yml host=example.d7c.ru aliases=['example.d7c.ru']

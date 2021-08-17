@@ -1,0 +1,18 @@
+#- name: apt-get update the server
+#  apt: update_cache=yes
+
+- name: apt-get upgrade the server
+  apt:
+    force_apt_get: yes
+    upgrade: "yes"
+    update_cache: yes
+    cache_valid_time: 432000
+
+- name: System - Install base packages
+  apt:
+    pkg:
+      - mc
+      - ntp
+      - htop
+      - wget
+    state: present
