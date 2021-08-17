@@ -1,0 +1,17 @@
+- name: Apply basic config to all systems
+  hosts: localhost
+  user: root
+  roles:
+    - common
+
+- name: Add users on server
+  hosts: localhost
+  user: root
+  roles:
+    - local_users
+
+- name: Install MySQL on databases
+  hosts: localhost
+  user: root
+  roles:
+    - database
